@@ -1,0 +1,25 @@
+
+
+body{
+    background-color:#f5f5f5;
+}
+
+#nav-text {
+    font-family: 'Times New Roman', Times, serif; /* Гарнитура текста */
+    font-size: 250%; /* Размер шрифта в процентах */
+    text-align: left;
+}
+
+th
+{
+    font-size: 250%;
+
+}
+#doc-container
+{
+    display: flex;
+    background-color:#ffffff;
+    height: 100vh;
+
+}
+tab

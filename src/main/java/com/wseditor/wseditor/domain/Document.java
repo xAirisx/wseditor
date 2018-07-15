@@ -20,6 +20,9 @@ public class Document {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "name")
+    private String name;
+
     public Document() {
     }
 
@@ -59,6 +62,14 @@ public class Document {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
 

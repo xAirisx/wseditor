@@ -13,8 +13,8 @@ function setConnected(connected) {
 }
 var sock;
 function connect() {
-    sock = new WebSocket('wss://wseditor.herokuapp.com/gs');
-
+   // sock = new WebSocket('wss://wseditor.herokuapp.com/gs');
+    sock = new WebSocket('ws://localhost:8080/gs');
     // var socket = new SockJS('/gs');
     // stompClient = Stomp.over(socket);
     // stompClient.connect({}, function (frame) {
