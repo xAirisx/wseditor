@@ -15,8 +15,6 @@ import java.util.List;
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
 
-    @Autowired
-    DocumentRepository repository;
 
     List<WebSocketSession> peers = new ArrayList<>();
 

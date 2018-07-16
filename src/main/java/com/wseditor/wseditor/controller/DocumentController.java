@@ -36,10 +36,25 @@ public class DocumentController {
         return "document";
     }
 
-    @RequestMapping(value = "/savedocument")
-    public String updateDocument(@RequestParam Document document)
+    @RequestMapping(value = "/updatedocument")
+    public void updateDocument(@RequestParam String id, @RequestParam String text)
     {
-        documentService.editDocument(document);
-        return "document";
+        System.out.println("Saving");
+        documentService.changeTextById(Integer.parseInt(id), text);
+    }
+
+    @RequestMapping(value = "/savedocument")
+    public void updateDocument(@RequestParam Document doc)
+    {
+        documentService.editDocument(doc);
+    }
+
+    @RequestMapping(value = "/adddocument")
+    public void addDocument(@RequestParam (value="name", defaultValue = "new file") String name, Model model)
+    {
+        System.out.println("Please work");
+        Document doc = new Document(name);
+        documentService.addDocument(doc);
+        getDocument(name, model);
     }
 }

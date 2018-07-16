@@ -1,8 +1,9 @@
 
+
 var socketConn = socketConn = new WebSocket('ws://localhost:8080/gs');
 var stompClient = null;
 var symbolCount = 0;
-setTimeout(sendtobase, 10000);
+setTimeout(sendtobase, 30000);
 
 function startsock() {
     console.log("begin");
@@ -35,13 +36,37 @@ function send() {
         sendtobase();
     }
 
-    function sendtobase()
-    {
-        var text = $('#doctext').html();
-        $.post("/saveToDb", text, function (data) {
-            
-        });
+    function sendtobase() {
+        var docid = document.getElementById('docid');
+        var doctext = document.getElementById('doctext');
+
+        console.log(doctext.value);
+        console.log(docid.value);
+        console.log("we are here");
+        // $.post("/savedocument", { json_string:JSON.stringify({Document:doc}) });
+        // $.post("/updatedocument", { json_string:JSON.stringify({id:"1", text: doctext.value}) });
+
+         $.ajax({
+             type: 'POST',
+             dataType: 'json',
+             contentType:'application/json',
+             url: "/adddocument",
+             data:JSON.stringify(doctext.value),
+             success: function(data, textStatus ){
+                 console.log(data);
+                 alert("success");
+             },
+             error: function(xhr, textStatus, errorThrown){
+                // alert('request failed'+errorThrown);
+             }
+         });
+
+
+
     }
+
+
+
 
 
 

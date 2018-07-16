@@ -23,6 +23,11 @@ public class DocumentServiceImpl implements DocumentService {
         documentRepository.delete(document);
     }
 
+    @Override
+    public void changeTextById (int id, String text)
+    {
+        documentRepository.changeTextById(id, text);
+    }
 
     @Override
     public Document editDocument(Document document) {

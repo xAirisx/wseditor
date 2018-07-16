@@ -12,6 +12,7 @@ public interface DocumentService {
     Document editDocument(Document document);
     public Document getDocumentByName(String name);
     List<Document> getAll();
+    public void changeTextById (int id, String text);
 
     /*
     @Query("select d from Document d where d.name = :name")
