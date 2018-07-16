@@ -10,6 +10,7 @@ public interface DocumentService {
     Document addDocument(Document document);
     void delete(Document document);
     Document editDocument(Document document);
+    public Document getDocumentByName(String name);
     List<Document> getAll();
 
     /*

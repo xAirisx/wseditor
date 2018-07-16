@@ -33,4 +33,12 @@ public class DocumentServiceImpl implements DocumentService {
     public List<Document> getAll() {
         return documentRepository.findAll();
     }
+
+    @Override
+    public Document getDocumentByName(String name)
+    {
+        return documentRepository.findByName(name);
+    }
+
 }
+

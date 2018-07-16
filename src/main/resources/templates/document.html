@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="js/sock.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body  onload = "startsock()" onclose="closesock()">
+<nav class="navbar navbar-dark bg-dark">
+    <span id = "nav-header" class="navbar-brand mb-0 h1">Text Editor</span>
+</nav>
+<div>
+    <h1 id="doc-name" th:text="${document.name}"></h1>
+</div>
+<div id="text-container">
+<textarea  id="doctext" onkeyup="send()" th:text="${document.text}"></textarea>
+</div>
+</body>
+</html>

@@ -22,9 +22,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println(String.format("Received message %s", message.getPayload()));
-        repository.save(new Document(1, "no", message.getPayload()));
-        session.sendMessage(new TextMessage(message.getPayload()));
+        System.out.println(message.getPayload());
+        for (WebSocketSession peer : peers) {
+            peer.sendMessage(new TextMessage(message.getPayload()));
+        }
     }
 
     @Override

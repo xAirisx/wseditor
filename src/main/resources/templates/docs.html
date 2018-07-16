@@ -3,8 +3,7 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
@@ -13,38 +12,20 @@
 </head>
 
 <body>
+<i class="glyphicon glyphicon-user"></i>
 <nav class="navbar navbar-dark bg-dark">
-
-    <i class="fa fa-navicon" aria-hidden="true"></i>
-
-    <a class="navbar-brand" href="#">
-
-    </a>
-    <span id = "nav-text" class="navbar-brand mb-0 h1" >Text Editor</span>
-    <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <span id = "nav-header" class="navbar-brand mb-0 h1">Text Editor</span>
 </nav>
 
 <div id="doc-container" class="container">
     <!-- Content here -->
-
-    <table class="table table-borderless">
-    <thead>
-    <tr>
-        <th scope="col">Documents</th>
-    </tr>
-    </thead>
-    <tbody>
+    <h1>Documents</h1>
+    <table class="table ">
     <tr th:each = "document : ${documents}">
-        <span class="glyphicon glyphicon-file"></span>
-        <td th:text="${document.name}"></td>
+        <td ><i class="fas fa-file-alt"></i></td>
+        <td th:name="${document.name}"><a id = "link" th:href="@{/document(name=${document.name})}" th:text="${document.name}"></a></td>
     </tr>
-    </tbody>
-</table>
+    </table>
 </div>
-
-
 </body>
 </html>

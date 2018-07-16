@@ -11,11 +11,6 @@ public class Document {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="version")
-    private int version;
-
-    @Column(name="user_id")
-    private String userId;
 
     @Column(name = "text")
     private String text;
@@ -23,13 +18,18 @@ public class Document {
     @Column(name = "name")
     private String name;
 
-    public Document() {
-    }
 
-    public Document(int version, String userId, String text) {
-        this.version = version;
-        this.userId = userId;
+    public Document()
+    {
+
+    }
+    public Document(String name, String text) {
         this.text = text;
+        this.name = name;
+    }
+    public Document(String name) {
+
+        this.name = name;
     }
 
     public String getText() {
@@ -48,21 +48,6 @@ public class Document {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
 
     public String getName() {
         return name;

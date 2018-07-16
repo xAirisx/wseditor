@@ -4,22 +4,56 @@ body{
     background-color:#f5f5f5;
 }
 
-#nav-text {
+#nav-header {
     font-family: 'Times New Roman', Times, serif; /* Гарнитура текста */
     font-size: 250%; /* Размер шрифта в процентах */
-    text-align: left;
+    alignment: left;
+    margin-left: 40px;
 }
 
-th
+h1
 {
-    font-size: 250%;
-
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 #doc-container
 {
-    display: flex;
     background-color:#ffffff;
     height: 100vh;
+}
+table {
+    width: 100%;
+}
+td{
+    font-size: 150%;
+}
+
+tr :first-child {
+    width: 0;
+    white-space: nowrap;
+}
+
+tr :last-child {
+    width: 100%;
+}
+#link
+{
+    color: black;
+    text-decoration: none;
+}
+
+#doctext {
+    height: 100vh;
+    alignment: center;
+    margin-left: 25%;
+    width: 50%;
+    font-size: 150%;
+}
+#doc-name
+{
+    font-size: 200%;
+    color: #757575;
+   margin-left: 25%;
+    padding-bottom: 0px;
 
 }
-tab
