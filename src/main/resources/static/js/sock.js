@@ -1,6 +1,6 @@
 
 
-var socketConn = socketConn = new WebSocket('wss://localhost:8080/gs');
+var socketConn = socketConn = new WebSocket('wss://wseditor.herokuapp/gs');
 var stompClient = null;
 var symbolCount = 0;
 setTimeout(sendtobase, 10000);
