@@ -1,6 +1,6 @@
 
 
-var socketConn = socketConn = new WebSocket('ws://localhost:8080/gs');
+var socketConn = socketConn = new WebSocket('wss://localhost:8080/gs');
 var stompClient = null;
 var symbolCount = 0;
 setTimeout(sendtobase, 10000);
@@ -60,8 +60,3 @@ function send() {
 
 
 
-
-/*
-var serverMsg = document.getElementById('serverMsg');
-serverMsg.value = event.data;
-*/
