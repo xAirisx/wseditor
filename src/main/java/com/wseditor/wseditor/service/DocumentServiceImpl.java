@@ -9,11 +9,13 @@ import java.util.List;
 
 @Service("documentService")
 public class DocumentServiceImpl implements DocumentService {
+
     @Autowired
     private DocumentRepository documentRepository;
 
     @Override
     public Document addDocument(Document document) {
+
         Document savedDocument = documentRepository.saveAndFlush(document);
         return savedDocument;
     }
@@ -21,12 +23,6 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public void delete(Document document) {
         documentRepository.delete(document);
-    }
-
-    @Override
-    public void changeTextById (int id, String text)
-    {
-        documentRepository.changeTextById(id, text);
     }
 
     @Override

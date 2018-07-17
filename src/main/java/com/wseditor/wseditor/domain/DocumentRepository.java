@@ -11,7 +11,4 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
     @Query("select d from Document d where d.name = :name")
     Document findByName(@Param("name") String name);
 
-    @Modifying
-    @Query(nativeQuery = true, value = "update Document d set d.text = :text where d.id = :id;")
-    void changeTextById(@Param("id") int id, @Param("text") String text);
 }
