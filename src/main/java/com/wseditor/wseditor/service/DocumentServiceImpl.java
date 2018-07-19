@@ -1,7 +1,7 @@
 package com.wseditor.wseditor.service;
 
-import com.wseditor.wseditor.domain.Document;
-import com.wseditor.wseditor.domain.DocumentRepository;
+import com.wseditor.wseditor.model.Document;
+import com.wseditor.wseditor.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

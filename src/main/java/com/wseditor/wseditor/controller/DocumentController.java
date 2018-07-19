@@ -1,7 +1,7 @@
 package com.wseditor.wseditor.controller;
 
 
-import com.wseditor.wseditor.domain.Document;
+import com.wseditor.wseditor.model.Document;
 import com.wseditor.wseditor.service.DocumentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/")
 public class DocumentController {
 
     @Autowired

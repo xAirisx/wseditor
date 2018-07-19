@@ -1,4 +1,4 @@
-package com.wseditor.wseditor.domain;
+package com.wseditor.wseditor.model;
 
 import javax.persistence.*;
 

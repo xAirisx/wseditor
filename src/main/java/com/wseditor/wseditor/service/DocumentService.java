@@ -1,8 +1,6 @@
 package com.wseditor.wseditor.service;
 
-import com.wseditor.wseditor.domain.Document;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import com.wseditor.wseditor.model.Document;
 
 import java.util.List;
 

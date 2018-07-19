@@ -1,8 +1,5 @@
 package com.wseditor.wseditor.config;
 
-import com.wseditor.wseditor.domain.Document;
-import com.wseditor.wseditor.domain.DocumentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -22,7 +19,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         System.out.println(message.getPayload());
         for (WebSocketSession peer : peers) {
-            peer.sendMessage(new TextMessage(message.getPayload()));
+            if(peer!=session) {
+                peer.sendMessage(new TextMessage(message.getPayload()));
+            }
         }
     }
 
