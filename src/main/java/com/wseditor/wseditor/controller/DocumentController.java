@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class DocumentController {
@@ -16,11 +19,14 @@ public class DocumentController {
     @Qualifier(value="documentService")
     DocumentServiceImpl documentService;
 
-    @RequestMapping(value = "/getAllDocuments", method = RequestMethod.GET)
+    @RequestMapping(value = "/homepage", method = RequestMethod.GET)
     public String getAllDocuments(Model model)
     {
+       //MyUserDetails d = (MyUserDetails) principal; , Principal principal
+     //   String principalName = principal.getName();
+        System.out.println("getAll");
         model.addAttribute("documents", documentService.getAll());
-        return "docs";
+        return "homepage";
     }
 
     @RequestMapping(value = "/document")

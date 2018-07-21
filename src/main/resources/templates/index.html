@@ -9,23 +9,26 @@
     <title>Authorization</title>
 
 </head>
+
 <div class="container h-100" id="authForm">
     <div class="row h-100 justify-content-center align-items-center">
-        <form th:action="@{/}"  th:object="${user}" method="post">
+        <form th:action="@{/j_spring_security_check}" method="post">
+            <h1>Text Editor</h1>
+            <h0 id="glad">We glad to see you again!</h0>
             <div th:if="${errorMessage}"
                  class="alert alert-danger" role="alert"
                  th:text="${errorMessage}"></div>
-            <h1>Text Editor</h1>
-            <h0>We glad to see you again!</h0>
+            <div th:if="${successMessage}" class="alert alert-success" role="alert"
+                 th:text=${successMessage}></div>
             <div class="form-group">
                 <label for="InputLogin">Login</label>
-                <input id="InputLogin" type="text" th:field="*{login}" placeholder="Enter your login" class="form-control" required />
+                <input name="login" id="InputLogin" type="text"  placeholder="Enter your login" class="form-control" required />
             </div>
             <div class="form-group">
                 <label for="InputPassword">Password</label>
-                <input th:field="*{password}" type="password" class="form-control" id="InputPassword" placeholder="Enter your password">
+                <input name="password" type="password" class="form-control" id="InputPassword" placeholder="Enter your password" required >
             </div>
-            <button type="submit" class="btn btn-info btn-block mr-lg-0"><span id="login">Login</span></button>
+            <button  type="submit" class="btn btn-info btn-block"><span id="login">Login</span></button>
             <h0 id="last">Need an account?<a id = "link" th:href="@{/register}">Register</a></h0>
         </form>
     </div>

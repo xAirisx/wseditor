@@ -8,15 +8,13 @@ import javax.validation.constraints.NotNull;
 @Table(name="User")
 public class User {
 
-    User()
-    {
-
-    }
+    User() { }
 
     User(String login, String password)
     {
         this.login = login;
         this.password = password;
+
     }
 
     @Id
@@ -54,5 +52,10 @@ public class User {
         this.password = password;
     }
 
+
+    @Override
+    public String toString() {
+        return this.login + "/" + this.password;
+    }
 
 }

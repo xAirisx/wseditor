@@ -10,8 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.view.RedirectView;
 import javax.validation.Valid;
 
 @Controller
@@ -22,73 +23,62 @@ public class UserController {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView showAuthPage(ModelAndView modelAndView, User user) {
-        modelAndView.addObject("user", user);
+    public ModelAndView showAuthPage(ModelAndView modelAndView, User user, @RequestParam(value = "error", required = false) String errorMessage, @RequestParam(value = "successMessage", required = false) String successMessage,
+                                     @RequestParam(value = "logout", required = false) String logout) {
+        if (successMessage != null) {
+
+            modelAndView.addObject("successMessage", successMessage);
+        }
+
+        if (errorMessage != null) {
+
+            modelAndView.addObject("errorMessage", "Invalid username or password!");
+        }
+        if (logout != null) {
+            modelAndView.addObject("msg", "You've been logged out successfully.");
+        }
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ModelAndView processAuthForm(ModelAndView modelAndView, User user) {
-
-        User userExists = userService.findByLogin(user.getLogin());
-        if (encoder.matches(user.getPassword(), userExists.getPassword())) {
-
-            System.out.println(userExists.getLogin());
-            modelAndView.setViewName("docs");
-            return modelAndView;
-        }
-        else
-        {
-            modelAndView.addObject("errorMessage", "The password is incorrect!");
-            modelAndView.setViewName("index");
-            return modelAndView;
-        }
-    }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView showRegistrationPage(ModelAndView modelAndView, User user) {
         modelAndView.addObject("user", user);
-        modelAndView.setViewName("1");
+        modelAndView.setViewName("register");
         return modelAndView;
     }
 
-    // Process form input data
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView processRegistrationForm(ModelAndView modelAndView, @Valid User user, BindingResult bindingResult) {
 
         User userExists = userService.findByLogin(user.getLogin());
-        System.out.println(userExists);
 
         if (userExists != null) {
-            modelAndView.addObject("errorMessage", "Oops!  There is already a user registered with the login provided.");
-            modelAndView.setViewName("1");
+
+            modelAndView.addObject("errorMessage", "Login is already taken");
             bindingResult.reject("login");
+            return modelAndView;
         }
 
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("1");
+        Zxcvbn passwordCheck = new Zxcvbn();
+        Strength strength = passwordCheck.measure(user.getPassword());
+
+        if (strength.getScore() < 3) {
+
+            bindingResult.reject("password");
+            modelAndView.addObject("errorMessage", "Password is too weak");
+            return modelAndView;
+
         } else {
 
-            Zxcvbn passwordCheck = new Zxcvbn();
-            Strength strength = passwordCheck.measure(user.getPassword());
-
-            if (strength.getScore() < 3) {
-
-                bindingResult.reject("password");
-                modelAndView.addObject("errorMessage", "Your password is too weak.  Choose a stronger one.");
-                return modelAndView;
-            } else {
-
-                user.setPassword(encoder.encode(user.getPassword()));
-                userService.saveUser(user);
-                modelAndView.addObject("successMessage", "Successfully registered!");
-                modelAndView.setViewName("index");
-                return modelAndView;
-            }
+            user.setPassword(encoder.encode(user.getPassword()));
+            userService.saveUser(user);
+            modelAndView = new ModelAndView(new RedirectView("/"));
+            modelAndView.addObject("successMessage", "Successfully registered");
+            return modelAndView;
         }
-        return modelAndView;
-    }
 
+    }
 
 }

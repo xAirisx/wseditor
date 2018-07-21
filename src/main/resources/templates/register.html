@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-<link href="css/indexStyle.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil|Cairo" rel="stylesheet">
-
+<link href="css/registerStyle.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+<script src="js/confpas.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Refistration form</title>
@@ -13,39 +14,29 @@
 
 <div class="container h-100" id="authForm">
     <div class="row h-100 justify-content-center align-items-center">
-        <form th:action="@{/}"  th:object="${user}" method="post">
+        <form  th:action="@{/register}"  th:object="${user}" method="post">
+
             <h1>Registration</h1>
-            <div th:if="${successMessage}" class="alert alert-success" role="alert"
+            <div id="sucmessage" th:if="${successMessage}" class="alert alert-success" role="alert"
                  th:text=${successMessage}></div>
 
-            <div th:if="${errorMessage}"
+            <div id="errorssage" th:if="${errorMessage}"
                  class="alert alert-danger" role="alert"
                  th:text="${errorMessage}"></div>
-
-
-            <div th:if="${#fields.hasErrors('login')}"
-                 th:errors="*{login}"
-                 class="validation-message alert alert-danger" role="alert"></div>
-
-            <div th:if="${#fields.hasErrors('password')}"
-                 th:errors="*{password}"
-                 class="validation-message alert alert-danger" role="alert"></div>
-            <div class="form-group input-group has-feedback">
+            <div class="form-group">
                 <label for="InputLogin">Login</label>
-                <input id="InputLogin" type="text" th:field="*{login}" placeholder="Enter login" class="form-control" required />
+                <input id="InputLogin" type="tel" class="form-control"  placeholder="Enter login" th:field="*{login}" required>
             </div>
-
-            <div class="form-group input-group has-feedback">
+            <div class="form-group">
                 <label for="InputPassword">Password</label>
-                <input th:field="*{password}" type="password" class="form-control" id="InputPassword" placeholder="Enter password">
+                <input  th:field="*{password}" type="password" class="form-control" id="InputPassword" placeholder="Enter password" required>
             </div>
-
-            <div class="form-group input-group has-feedback">
-                <label for="ConfirmPassword">Password</label>
-                <input type="password" class="form-control" id="ConfirmPassword" placeholder="Confirm password">
+            <div class="form-group">
+                <label for="ConfirmPassword">Confirm Password</label>
+                <input  type="password" class="form-control" id="ConfirmPassword" placeholder="Confirm password" required onkeyup="check()">
+                <span id='message'></span>
             </div>
-            <button type="submit" class="btn btn-info btn-block mr-lg-0"><span id="login">Login</span></button>
-            <h0 id="last">Need an account?<a id = "link" th:href="@{/register}">Register</a></h0>
+            <button id="but" type="submit" class="btn btn-info btn-block"><span id="submit">Submit</span></button>
         </form>
     </div>
 </div>
@@ -53,7 +44,8 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 </body>
 </html>
