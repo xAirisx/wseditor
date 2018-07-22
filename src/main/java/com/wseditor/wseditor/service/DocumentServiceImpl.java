@@ -16,22 +16,22 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Document addDocument(Document document) {
 
-        Document savedDocument = documentRepository.saveAndFlush(document);
+        Document savedDocument = documentRepository.save(document);
         return savedDocument;
     }
 
     @Override
-    public void delete(Document document) {
-        documentRepository.delete(document);
+    public void delete(Integer id) {
+        documentRepository.deleteById(id);
     }
 
     @Override
     public Document editDocument(Document document) {
-        return documentRepository.saveAndFlush(document);
+        return documentRepository.save(document);
     }
 
     @Override
-    public List<Document> getAll() {
+    public Iterable<Document> getAll() {
         return documentRepository.findAll();
     }
 

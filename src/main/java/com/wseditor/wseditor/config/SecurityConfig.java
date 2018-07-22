@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/register").anonymous()
-                .antMatchers("/homepage").authenticated()
+                .antMatchers("/homepage", "/document").authenticated()
                 .and().formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
                 .loginPage("/")
@@ -47,6 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/?error=true")
                 .usernameParameter("login")
                 .passwordParameter("password")
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
     }
 }

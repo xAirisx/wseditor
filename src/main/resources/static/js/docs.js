@@ -12,12 +12,13 @@ function adddoc() {
 
 function deletedoc(element) {
 
-    var docname = $(element).closest("tr").find("#link");
+    var doc = $(element).closest("tr").find("#id");
+
     $.ajax({
         url: "/deleteDocument",
         type: "POST",
         contentType: "text/plain",
-        data: docname.html()
+        data: doc.html()
     }).done(function () {
         location.reload();
     });

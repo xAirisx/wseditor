@@ -1,6 +1,7 @@
 package com.wseditor.wseditor.controller;
 
 
+import com.wseditor.wseditor.config.WebSocketHandler;
 import com.wseditor.wseditor.model.Document;
 import com.wseditor.wseditor.service.DocumentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.security.Principal;
 
 @Controller
 public class DocumentController {
@@ -19,46 +24,59 @@ public class DocumentController {
     @Qualifier(value="documentService")
     DocumentServiceImpl documentService;
 
+    @Autowired
+    WebSocketHandler webSocketHandler;
+
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
-    public String getAllDocuments(Model model)
+    public ModelAndView getAllDocuments(ModelAndView model, Principal principal)
     {
-       //MyUserDetails d = (MyUserDetails) principal; , Principal principal
-     //   String principalName = principal.getName();
-        System.out.println("getAll");
-        model.addAttribute("documents", documentService.getAll());
-        return "homepage";
+        model.addObject("username", principal.getName());
+        model.addObject("documents", documentService.getAll());
+        model.setViewName("homepage");
+        return model;
+    }
+
+    @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
+    public ModelAndView logoutSuccessfulPage(ModelAndView model) {
+
+        System.out.println("logout");
+        model = new ModelAndView(new RedirectView("/"));
+        return model;
     }
 
     @RequestMapping(value = "/document")
-    public String getDocument(@RequestParam String name, Model model) {
-        model.addAttribute("document", documentService.getDocumentByName(name));
+    public ModelAndView getDocument(@RequestParam String name, ModelAndView model, Principal principal) {
+
+        model.addObject("users", webSocketHandler.users);
+        model.addObject("username", principal.getName());
+        model.addObject("document", documentService.getDocumentByName(name));
         System.out.println(documentService.getDocumentByName(name).getText());
-        return "document";
+        model.setViewName("document");
+        return model;
     }
 
     @RequestMapping(value = "/deleteDocument")
-    public String deleteDocument(@RequestBody String name, Model model)
+    public ModelAndView deleteDocument(@RequestBody String id, ModelAndView model)
     {
-        Document doc = documentService.getDocumentByName(name);
-        System.out.println("Deleting");
-        documentService.delete(doc);
-        return getAllDocuments(model);
+        documentService.delete(Integer.parseInt(id));
+        model = new ModelAndView(new RedirectView("homepage"));
+        return model;
     }
 
     @RequestMapping(value = "/addDocument")
-    public String addDocument(Model model)
+    public ModelAndView addDocument(ModelAndView model)
     {
         Document doc = new Document();
         documentService.addDocument(doc);
         doc.setName("new file " +  doc.getId());
         documentService.editDocument(doc);
-        return getAllDocuments(model);
+        model = new ModelAndView(new RedirectView("homepage"));
+        return model;
     }
 
     @RequestMapping(value = "/updateDocument")
-    public String getDocument(@RequestBody Document document, Model model) {
+    public void updateDocument(@RequestBody Document document) {
 
         documentService.editDocument(document);
-        return getDocument(document.getName(), model);
     }
 }

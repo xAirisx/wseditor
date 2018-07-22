@@ -53,3 +53,8 @@ button
     font-size: 85%;
     font-family: 'Cairo', sans-serif;
 }
+#link
+{
+    color: #00b8d4;
+    margin-left: 5px;
+}

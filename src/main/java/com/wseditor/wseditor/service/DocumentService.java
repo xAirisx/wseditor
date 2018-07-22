@@ -7,9 +7,9 @@ import java.util.List;
 public interface DocumentService {
 
     Document addDocument(Document document);
-    void delete(Document document);
+    void delete(Integer id);
     Document editDocument(Document document);
     Document getDocumentByName(String name);
-    List<Document> getAll();
+    Iterable<Document> getAll();
 
 }

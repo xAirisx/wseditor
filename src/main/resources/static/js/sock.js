@@ -41,9 +41,6 @@ function send() {
         var docid = document.getElementById('docid');
         var doctext = document.getElementById('doctext');
         var docname = document.getElementById('doc-name');
-        console.log(doctext.value);
-        console.log(docid.textContent);
-        console.log(docname.textContent);
 
         $.ajax({
             type: "POST",
@@ -52,10 +49,30 @@ function send() {
             contentType: 'application/json',
         });
 
-
-
     }
 
+function changeName() {
+    var docname = document.getElementById('doc-name');
+    var inputName = document.getElementById('InputName');
+    inputName.value = docname.textContent;
+    inputName.hidden=false;
+    docname.hidden = true;
+
+    inputName.focus();
+
+
+}
+
+function stopChange() {
+    console.log("stopping");
+    var docname = document.getElementById('doc-name');
+    var inputName = document.getElementById('InputName');
+    docname.textContent =  inputName.value;
+    inputName.hidden=true;
+    docname.hidden = false;
+
+    sendtobase();
+}
 
 
 
