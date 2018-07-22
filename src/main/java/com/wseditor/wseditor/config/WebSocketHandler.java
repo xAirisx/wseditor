@@ -44,7 +44,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         peers.remove(session);
-       logger.debug("Peer gone");
+        logger.debug("Peer gone");
+        users.remove(session.getPrincipal().getName());
         super.afterConnectionClosed(session, status);
     }
 }

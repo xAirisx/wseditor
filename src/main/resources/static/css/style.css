@@ -126,3 +126,27 @@ a
     margin-left: 855px;
     padding-bottom: 0px;
 }
+#cont{
+    display: table;
+}
+#text-container
+{
+    display: table-cell;
+    width: 2500px;
+    padding-left: 160px;
+    padding-right: 0px;
+}
+#users
+{
+    background-color: white;
+    color: black;
+    width: 500px;
+    height: 100px;
+    display: table-cell;
+   padding-right: 1000px;
+}
+#allusers
+{
+
+    text-align: start;
+}

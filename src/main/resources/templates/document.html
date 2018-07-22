@@ -32,14 +32,16 @@
     <h1 onclick="changeName()"  id="doc-name" th:text="${document.name}"></h1>
     </form>
 </div>
+<div id="cont">
 <div id="text-container">
 <textarea  id="doctext" onkeyup="send()" th:text="${document.text}"></textarea>
 </div>
 <h1 id="docid" th:text="${document.id}" hidden="hidden"></h1>
-
-
-<tr th:each = "user : ${users}">
+<div id="users">
+<tr id="allusers" th:each = "user : ${users}">
     <td th:text="${user}"></td>
 </tr>
+</div>
+</div>
 </body>
 </html>
