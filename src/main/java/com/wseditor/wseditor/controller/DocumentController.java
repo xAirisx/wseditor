@@ -6,12 +6,11 @@ import com.wseditor.wseditor.model.Document;
 import com.wseditor.wseditor.service.DocumentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -47,7 +46,7 @@ public class DocumentController {
     @RequestMapping(value = "/document")
     public ModelAndView getDocument(@RequestParam String name, ModelAndView model, Principal principal) {
 
-        model.addObject("users", webSocketHandler.users);
+        //model.addObject("users", webSocketHandler.getUsersNames());
         model.addObject("username", principal.getName());
         model.addObject("document", documentService.getDocumentByName(name));
         System.out.println(documentService.getDocumentByName(name).getText());
@@ -75,8 +74,9 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/updateDocument")
-    public void updateDocument(@RequestBody Document document) {
+    public ResponseEntity<?> updateDocument(@RequestBody Document document) {
 
         documentService.editDocument(document);
+        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 }

@@ -5,10 +5,12 @@ var stompClient = null;
 var symbolCount = 0;
 setTimeout(sendtobase, 10000);
 
-function startsock() {
-    console.log("begin");
+socketConn.onopen = function (e) {
 
-}
+    var docname = document.getElementById('doc-name');
+    socketConn.send(JSON.stringify({docName: docname.textContent}));
+    socketConn.send(JSON.stringify({documentName: docname.textContent}))
+};
 
 
 function send() {
@@ -28,8 +30,33 @@ function send() {
 
     socketConn.onmessage = function(event) {
         console.log("recive");
-        var doctext = document.getElementById('doctext');
-        doctext.value = event.data;
+        if (event.data.startsWith("users:")) {
+            var users = event.data.split(":")[1].split(",");
+            console.log(users);
+            var usersTable = $("#users").find(".table");
+            var usersHtml = "";
+            for (var index in users) {
+                usersHtml += "<tr><td>" + users[index] + "</td></tr>";
+            }
+            usersTable.html(usersHtml);
+        } else if (event.data.startsWith("PEERS_UPDATED")) {
+            var docname = document.getElementById('doc-name');
+            socketConn.send(JSON.stringify({documentName: docname.textContent}))
+        } else {
+            var doctext = document.getElementById('doctext');
+            var offset = event.data.length - doctext.value.length;
+            var selection = {start: doctext.selectionStart, end: doctext.selectionEnd};
+            var startsSame = event.data.startsWith(doctext.value.substring(0, selection.end));
+            var endsSame = event.data.endsWith(doctext.value.substring(selection.start));
+            doctext.value = event.data;
+            if (startsSame && !endsSame) {
+                doctext.setSelectionRange(selection.start, selection.end);
+            } else if (!startsSame && endsSame) {
+                doctext.setSelectionRange(selection.start + offset, selection.end + offset);
+            } else { // this is what google docs does...
+                doctext.setSelectionRange(selection.start, selection.end + offset);
+            }
+        }
     }
 
     function closesock()

@@ -1,10 +1,16 @@
 package com.wseditor.wseditor.model;
 
+import org.springframework.web.socket.WebSocketSession;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Table(name="Document")
 public class Document {
+
 
     @Id
     @Column(name="id")
@@ -52,5 +58,6 @@ public class Document {
     public void setName(String name) {
         this.name = name;
     }
+
 }
 

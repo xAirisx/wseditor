@@ -15,4 +15,5 @@ public class WebSocketBrokerConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
         webSocketHandlerRegistry.addHandler(handler, "/gs");
     }
+
 }

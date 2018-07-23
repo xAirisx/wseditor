@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="css/documentStyle.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil|Cairo" rel="stylesheet">
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <title>Document</title>
 </head>
-<body  onload = "startsock()" onclose="closesock()">
+<body  onclose="closesock()">
 <nav class="navbar navbar-dark bg-dark">
     <span id = "nav-header" class="navbar-brand mb-0 h1">Text Editor</span>
     <form  th:if="${#request.userPrincipal != null}"  th:action="@{/logout}" id="profile" class="form-inline my-2 my-lg-0">
@@ -22,26 +22,29 @@
         <button class="btn btn-info my-2 my-sm-0" type="submit"><span id="logout">Logout</span></button></form>
     </form>
 </nav>
-<div>
-    <form>
-    <div id="backCont">
-        <i class="fas fa-long-arrow-alt-left"></i>
-        <a id="back" onclick="sendtobase()" th:href="@{/homepage}">All documents</a>
-    </div>
-    <span id="inputCont"><input   onblur="stopChange()"  hidden="hidden" id="InputName" type="text"  class="form-control" /></span>
-    <h1 onclick="changeName()"  id="doc-name" th:text="${document.name}"></h1>
-    </form>
+<div id="backCont">
+    <i class="fas fa-long-arrow-alt-left"></i>
+    <a id="back" onclick="sendtobase()" th:href="@{/homepage}">All documents</a>
 </div>
 <div id="cont">
-<div id="text-container">
-<textarea  id="doctext" onkeyup="send()" th:text="${document.text}"></textarea>
-</div>
-<h1 id="docid" th:text="${document.id}" hidden="hidden"></h1>
-<div id="users">
-<tr id="allusers" th:each = "user : ${users}">
-    <td th:text="${user}"></td>
-</tr>
-</div>
+    <div id="text-container">
+        <div>
+            <form onsubmit="return false;">
+                <span id="inputCont"><input   onblur="stopChange()"  hidden="hidden" id="InputName" type="text"  class="form-control" /></span>
+                <h1 onclick="changeName()"  id="doc-name" th:text="${document.name}"></h1>
+            </form>
+        </div>
+        <textarea  id="doctext" onkeyup="send()" th:text="${document.text}"></textarea>
+    </div>
+    <h1 id="docid" th:text="${document.id}" hidden="hidden"></h1>
+    <div id="users">
+        <h0 id="head-users">Users</h0>
+        <table class="table ">
+            <tr id="allusers" th:each = "user : ${users}">
+                <td th:text="${user}"></td>
+            </tr>
+        </table>
+    </div>
 </div>
 </body>
 </html>
