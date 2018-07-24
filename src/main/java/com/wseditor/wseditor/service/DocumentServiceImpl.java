@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("documentService")
 public class DocumentServiceImpl implements DocumentService {
@@ -39,6 +40,13 @@ public class DocumentServiceImpl implements DocumentService {
     public Document getDocumentByName(String name)
     {
         return documentRepository.findByName(name);
+    }
+
+    @Override
+    public Optional<Document> getDocumentById(Integer id)
+    {
+        return documentRepository.findById(id);
+
     }
 
 }

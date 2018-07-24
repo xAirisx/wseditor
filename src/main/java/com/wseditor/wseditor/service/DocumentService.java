@@ -3,6 +3,7 @@ package com.wseditor.wseditor.service;
 import com.wseditor.wseditor.model.Document;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DocumentService {
 
@@ -11,5 +12,6 @@ public interface DocumentService {
     Document editDocument(Document document);
     Document getDocumentByName(String name);
     Iterable<Document> getAll();
+    Optional<Document> getDocumentById(Integer id);
 
 }

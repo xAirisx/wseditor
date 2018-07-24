@@ -1,7 +1,6 @@
 package com.wseditor.wseditor.controller;
 
 
-import com.wseditor.wseditor.config.WebSocketHandler;
 import com.wseditor.wseditor.model.Document;
 import com.wseditor.wseditor.service.DocumentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.jws.WebParam;
+import javax.print.Doc;
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 public class DocumentController {
@@ -23,8 +25,6 @@ public class DocumentController {
     @Qualifier(value="documentService")
     DocumentServiceImpl documentService;
 
-    @Autowired
-    WebSocketHandler webSocketHandler;
 
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
     public ModelAndView getAllDocuments(ModelAndView model, Principal principal)
@@ -36,40 +36,47 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
-    public ModelAndView logoutSuccessfulPage(ModelAndView model) {
+    public ModelAndView logoutSuccessfulPage() {
 
         System.out.println("logout");
-        model = new ModelAndView(new RedirectView("/"));
+        ModelAndView model = new ModelAndView(new RedirectView("/"));
         return model;
     }
 
     @RequestMapping(value = "/document")
-    public ModelAndView getDocument(@RequestParam String name, ModelAndView model, Principal principal) {
+    public ModelAndView getDocument(@RequestParam String id, ModelAndView model, Principal principal) {
 
-        //model.addObject("users", webSocketHandler.getUsersNames());
         model.addObject("username", principal.getName());
-        model.addObject("document", documentService.getDocumentByName(name));
-        System.out.println(documentService.getDocumentByName(name).getText());
-        model.setViewName("document");
+        Optional<Document> docOptional =  documentService.getDocumentById(Integer.parseInt(id));
+        if (docOptional.isPresent()){
+            Document doc = docOptional.get();
+            model.addObject("document", doc);
+            model.setViewName("document");
+        }
+        else
+        {
+            model = new ModelAndView(new RedirectView("/homepage"));
+            model.addObject("errorMessage", "Document not found!");
+        }
         return model;
     }
 
     @RequestMapping(value = "/deleteDocument")
-    public ModelAndView deleteDocument(@RequestBody String id, ModelAndView model)
+    public ModelAndView deleteDocument(@RequestBody String id)
     {
         documentService.delete(Integer.parseInt(id));
-        model = new ModelAndView(new RedirectView("homepage"));
+        ModelAndView model = new ModelAndView(new RedirectView("homepage"));
         return model;
     }
 
     @RequestMapping(value = "/addDocument")
-    public ModelAndView addDocument(ModelAndView model)
+    public ModelAndView addDocument()
     {
         Document doc = new Document();
         documentService.addDocument(doc);
         doc.setName("new file " +  doc.getId());
         documentService.editDocument(doc);
-        model = new ModelAndView(new RedirectView("homepage"));
+        ModelAndView model = new ModelAndView(new RedirectView("homepage"));
         return model;
     }
 

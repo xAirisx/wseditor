@@ -31,7 +31,7 @@
     <table class="table ">
     <tr th:each = "document : ${documents}">
         <td ><i class="fas fa-file-alt"></i></td>
-        <td ><a id = "link" th:href="@{/document(name=${document.name})}" th:text="${document.name}"></a></td>
+        <td ><a id = "link" th:href="@{/document(id=${document.id})}" th:text="${document.name}"></a></td>
         <td  ><i onclick="deletedoc(this)" class="far fa-trash-alt" id="delete" ></i></td>
         <td  ><h0 id="id" hidden="hidden" th:text="${document.id}"></h0></td >
     </tr>
