@@ -1,12 +1,9 @@
-package com.wseditor.wseditor.model;
+package com.wseditor.wseditor.model.dto.message;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class NameUpdateMessage {
+public class NameUpdateMessage extends MessageDto {
 
     private String documentName;
 
-    @JsonProperty("docName")
     public String getDocumentName() {
         return documentName;
     }

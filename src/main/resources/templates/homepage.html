@@ -1,42 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link href="/css/homepageStyle.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil|Cairo" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+            integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+            crossorigin="anonymous"></script>
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-    <script src="js/docs.js"></script>
+    <script type="text/javascript" src="/js/homepageFunctions.js"></script>
     <title>Text Editor</title>
 </head>
 
 <body>
 <i class="glyphicon glyphicon-user"></i>
 <nav class="navbar navbar-dark bg-dark">
-    <span id = "nav-header" class="navbar-brand mb-0 h1">Text Editor</span>
-    <form th:if="${#request.userPrincipal != null}" th:action="@{/logout}" id="profile" class="form-inline my-2 my-lg-0">
+    <span id="navbar-header" class="navbar-brand mb-0 h1">Text Editor</span>
+    <form th:if="${#request.userPrincipal != null}" th:action="@{/logout}" id="profile"
+          class="form-inline my-2 my-lg-0">
         <span id="person"><i class="fas fa-user"></i></span>
-        <span  id="name" class="navbar-text" th:text="${username}"></span>
-        <button class="btn btn-info my-2 my-sm-0" type="submit"><span id="logout1">Logout</span></button></form>
+        <span id="name" class="navbar-text" th:text="${username}"></span>
+        <button class="btn btn-info my-2 my-sm-0" type="submit"><span id="logout1">Logout</span></button>
     </form>
-
+    </form>
 </nav>
-<h1 id="documents">Documents</h1>
-<div id="doc-container" class="container">
+<div id="error-message">
+<div  th:if="${errorMessage}"
+     class="alert alert-danger" role="alert"
+     th:text="${errorMessage}"></div>
+</div>
+
+<div id="document-container" class="container">
+    <h1 id="documents">Documents</h1>
     <!-- Content here -->
     <table class="table ">
-    <tr th:each = "document : ${documents}">
-        <td ><i class="fas fa-file-alt"></i></td>
-        <td ><a id = "link" th:href="@{/document(id=${document.id})}" th:text="${document.name}"></a></td>
-        <td  ><i onclick="deletedoc(this)" class="far fa-trash-alt" id="delete" ></i></td>
-        <td  ><h0 id="id" hidden="hidden" th:text="${document.id}"></h0></td >
-    </tr>
+        <tr th:each="document : ${documents}">
+            <td><i class="fas fa-file-alt"></i></td>
+            <td><a id="document-link" th:href="@{'/document/' + ${document.id}}" th:text="${document.name}"></a></td>
+            <td id="arrow-down"><i onclick="showVersionTable(this)" class="fas fa-angle-down"></i></td>
+            <td id="arrow-up" hidden="hidden" ><i onclick="deleteVersionTable(this)" class="fas fa-angle-up"></i></td>
+            <td><i onclick="deleteDocument(this)" class="far fa-trash-alt" id="delete"></i></td>
+            <td>
+                <h0 id="document-id" hidden="hidden" th:text="${document.id}"></h0>
+            </td>
+            <td id="version-table">
+                <div th:id="'version-table-container-' + ${document.id}">
+                    <table class="table"></table>
+                </div>
+            </td>
+        </tr>
     </table>
-    <h0  onclick="adddoc()" ><i  class="fas fa-plus" id="plus" ></i>Add</h0>
+    <h0 id="add-button-header" onclick="addNewDocument()"><i class="fas fa-plus" id="add-button"></i>Add</h0>
 </div>
 </body>
 </html>

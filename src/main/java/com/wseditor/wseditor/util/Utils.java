@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 
 public class Utils {
 
-    private static final Logger logger = LoggerFactory.getLogger(Utils.class);
 
     public static void trySilently(Action action) {
         try {
             action.call();
         } catch (Exception e) {
-            logger.debug(e.getMessage());
+
+            throw new IllegalArgumentException(e);
         }
     }
 

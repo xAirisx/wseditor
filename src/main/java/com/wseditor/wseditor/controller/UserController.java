@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import javax.validation.Valid;
-import java.util.List;
+
 
 @Controller
 public class UserController {
@@ -65,10 +65,10 @@ public class UserController {
         Zxcvbn passwordCheck = new Zxcvbn();
         Strength strength = passwordCheck.measure(user.getPassword());
 
-        if (strength.getScore() < 3) {
+        if (strength.getScore() < 1) {
 
             bindingResult.reject("password");
-            modelAndView.addObject("errorMessage", "Password is too weak");
+            modelAndView.addObject("errorMessage", "Your password should be an appropriate length, contain some symbols and mixed-case letters. Avoid using only dictionary words or sequential numbers or characters. ");
             return modelAndView;
 
         } else {

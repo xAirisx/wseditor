@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name="Document")
 public class Document {
 
-
+    public enum DocumentType {MAIN, EXTRA}
     @Id
     @Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,19 +24,29 @@ public class Document {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "type")
+    private DocumentType type;
+
+    @Column(name = "maindoc_id")
+    private Integer mainDocId;
+
+
+
 
     public Document()
     {
 
     }
-    public Document(String name, String text) {
+    public Document(String name, String text, Integer mainDocId) {
         this.text = text;
         this.name = name;
+        this.mainDocId = mainDocId;
     }
     public Document(String name) {
 
         this.name = name;
     }
+
 
     public String getText() {
         return text;
@@ -57,6 +67,23 @@ public class Document {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public String getType() {
+        return type.toString();
+    }
+
+    public void setType(DocumentType type) {
+        this.type=type;
+    }
+
+    public Integer getMainDocId() {
+        return mainDocId;
+    }
+
+    public void setMainDocId(Integer mainDocId) {
+        this.mainDocId = mainDocId;
     }
 
 }

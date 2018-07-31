@@ -24,6 +24,10 @@
             <li class="nav-item active">
                 <a id="back-to-all-documents" class="nav-link" onclick="sendToDatabase()" th:href="@{/homepage}">All documents<span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item active">
+                <a id="back-to-main-documents" class="nav-link"  th:href="@{'/document/' + ${mainDocumentId}}">Main document<span class="sr-only">(current)</span></a>
+                <h0 id="main-document-id" hidden="hidden" th:text="${mainDocumentId}"></h0>
+            </li>
         </ul>
     <form th:if="${#request.userPrincipal != null}" th:action="@{/logout}" id="profile"
           class="form-inline my-2 my-lg-0">
@@ -36,17 +40,8 @@
 </nav>
 <div id="main-container" class="flex-container">
     <div id="version-container">
-        <div>
-            <h0 id="head-version">Version</h0>
-            <form id="version-form" class="form-inline my-2 my-lg-0">
-                <input class="form-control" id="new-version-name" type="text" placeholder="Enter name of version"
-                       required>
-                <span id="version-span" class="input-group-btn">
-            <button onclick="addNewVersion()" class="btn btn-info" type="button"><span
-                    id="version-btn">Add</span></button>
-            </span>
-            </form>
-        </div>
+        <h0 id="head-version">Version</h0>
+        <hr>
         <div>
             <table id="version-table">
                 <tr th:each="ver : ${version}">

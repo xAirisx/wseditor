@@ -3,7 +3,7 @@ body{
     background-color:#f5f5f5;
 
 }
-#nav-header {
+#navbar-header {
     font-family: 'Cairo', sans-serif;
     font-size: 150%;
 }
@@ -29,20 +29,22 @@ body{
 {
     margin-bottom: 10px;
 }
-#doc-container
+#document-container
 {
     background-color:#ffffff;
     height: 100vh;
 }
+
 #documents
 {
     color: #757575;
-    margin-left: 23%;
+
     padding-bottom: 0px;
     font-size: 150%;
     padding-top: 2%;
     font-family: 'Cairo', sans-serif;
 }
+
 td{
     font-size: 120%;
     font-family: 'Cairo', sans-serif;
@@ -57,7 +59,7 @@ tr :last-child {
     width: 100%;
 }
 
-#link
+#document-link
 {
     color: black;
     text-decoration: none;
@@ -68,11 +70,30 @@ h0
     color: #757575;
 }
 
-#plus
+#add-button
 {
 
     margin-right: 10px;
-    color: #757575;
+    color: #00b8d4;
     padding-bottom: 10px;
     font-size: 125%;
+}
+#add-button-header
+{
+    color: #00b8d4;
+}
+#version-table
+{
+    font-size: 100%;
+    color: #00b8d4;
+}
+#no-version-message
+{
+    color: red;
+}
+#error-message
+{
+
+    padding-left: 85%;
+    padding-right: 1%;
 }

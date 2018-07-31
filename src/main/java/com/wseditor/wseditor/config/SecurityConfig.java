@@ -38,8 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 .antMatchers("/", "/register").anonymous()
-                .antMatchers("/homepage", "/document").authenticated()
+                .antMatchers("/homepage", "/document/{id}", "/version/{id}").authenticated()
                 .and().formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
                 .loginPage("/")
