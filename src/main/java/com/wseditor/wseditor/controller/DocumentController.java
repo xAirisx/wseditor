@@ -83,6 +83,7 @@ public class DocumentController {
     @RequestMapping(value = "updateDocument/{id}", method = {RequestMethod.PUT})
     public ResponseEntity<?> updateDocument(@PathVariable String id, @RequestBody UpdateDocumentRequest updateDocumentRequest) {
 
+
         documentService.updateDocument(Integer.parseInt(id), updateDocumentRequest);
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
@@ -122,13 +123,10 @@ public class DocumentController {
     @RequestMapping(value = "addNewVersion/{id}", method = {RequestMethod.POST})
     public @ResponseBody
     String addNewVersion(@PathVariable String id, @RequestBody NewVersionRequest newVersionRequest, ModelAndView modelAndView) {
-        if (newVersionRequest.getVersionName().length() != 0) {
 
             Integer newVersionId = documentService.addNewVersion(Integer.parseInt(id), newVersionRequest).getId();
             return newVersionId.toString();
-        } else {
-            return null;
-        }
+
     }
 
 

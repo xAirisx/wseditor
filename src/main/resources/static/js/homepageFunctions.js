@@ -83,7 +83,7 @@ function deleteVersionTable(element)
 {
     let documentId = $(element).closest("tr").find("#document-id").html();
     let table = $(`#version-table-container-${documentId}`).find(".table");
-     table.empty();
+    table.empty();
 
 
     //Change arrow

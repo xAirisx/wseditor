@@ -158,24 +158,24 @@ function addNewVersion() {
 
     let versionName = document.getElementById('new-version-name');
     let documentText = document.getElementById('document-text');
-    $.ajax({
-        type: "POST",
-        url: "/addNewVersion/" + $("#document-id").html(),
-        contentType: 'application/json',
-        data: JSON.stringify({versionName: versionName.value, versionText: documentText.value}),
+    if(versionName.value != "") {
+        $.ajax({
+            type: "POST",
+            url: "/addNewVersion/" + $("#document-id").html(),
+            contentType: 'application/json',
+            data: JSON.stringify({versionName: versionName.value, versionText: documentText.value}),
 
-        success: function (data) {
-            if(data!="") {
+            success: function (data) {
                 console.log("Version was added");
-                socketConn.send(JSON.stringify({type: "UPDATE_VERSION", versionName: versionName.value, versionId: data}));
+                socketConn.send(JSON.stringify({
+                    type: "UPDATE_VERSION",
+                    versionName: versionName.value,
+                    versionId: data
+                }));
             }
-            else
-            {
-                let errorMessage = document.getElementById('error-message');
-                //TODO error
-            }
-        }
-    });
+        });
+    }
+
 
 }
 
