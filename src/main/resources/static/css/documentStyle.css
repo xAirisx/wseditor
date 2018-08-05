@@ -62,7 +62,7 @@ body{
 
 #document-text {
     height: 100vh;
-    width: 750px;
+
     font-size: 130%;
     font-family: 'Cairo', sans-serif;
 }
@@ -124,6 +124,10 @@ body{
 #version-name
 {
     padding-right: 2%;
+}
+.mce-notification.mce-in
+{
+    display: none;
 }
 .hr {
     border: none;

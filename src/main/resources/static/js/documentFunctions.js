@@ -5,10 +5,28 @@ var symbolCount = 0;
 //Send to database every 10 sec
 setTimeout(sendToDatabase, 10000);
 
+document.onreadystatechange = function () {
+
+    tinymce.init({
+        selector: 'textarea',
+        width: "750",
+        setup: function (ed) {
+            ed.on('KeyUp', function (e) {
+                sendText();
+            });
+        }
+    });
+
+    tinymce.DOM.bind(document, 'click', function(e) {
+        sendText();
+    });
+}
+
 //Start session and get users
 function startSocket() {
 
     socketConn.send(JSON.stringify({type: "START_MESSAGE", documentId: $("#document-id").html()}));
+
 }
 
 function closeSocket()
@@ -20,12 +38,12 @@ function closeSocket()
 //save Text and Document Name to Database
 function sendToDatabase() {
 
-    let  documentText = document.getElementById('document-text');
+    let  documentText = tinyMCE.activeEditor.getContent();
     let documentName = document.getElementById('document-name');
     $.ajax({
         type: "PUT",
         url: "/updateDocument/" + $("#document-id").html(),
-        data: JSON.stringify({type: "UPDATE_TEXT", documentText: documentText.value, documentName: documentName.textContent}),
+        data: JSON.stringify({type: "UPDATE_TEXT", documentText: documentText, documentName: documentName.textContent}),
         contentType: 'application/json',
     });
 }
@@ -34,11 +52,11 @@ function sendToDatabase() {
 //Send text to all peers
 function sendText() {
 
+    var  documentText = tinyMCE.activeEditor.getContent();
     symbolCount++;
-    var doctext = document.getElementById('document-text');
-    if (doctext.value) {
+    if (documentText) {
 
-        socketConn.send(JSON.stringify({type: "UPDATE_TEXT", documentText: doctext.value}));
+        socketConn.send(JSON.stringify({type: "UPDATE_TEXT", documentText: documentText}));
     }
     if (symbolCount == 10) {
         symbolCount = 0;
@@ -52,20 +70,21 @@ socketConn.onmessage = function(event) {
 
     if(event.data.startsWith("TEXT_UPDATED"))
     {
-        let newdocumentText = event.data.split(":")[1];
-        let doctext = document.getElementById('document-text');
+        var newdocumentText = event.data.split("|")[1];
+        var  documentText = tinyMCE.activeEditor.getContent();
 
-        let offset = event.data.length - doctext.value.length;
-        let selection = {start: doctext.selectionStart, end: doctext.selectionEnd};
-        let startsSame = event.data.startsWith(doctext.value.substring(0, selection.end));
-        let endsSame = event.data.endsWith(doctext.value.substring(selection.start));
-        doctext.value = newdocumentText;
+        var offset = newdocumentText.length - documentText.length;
+        var selection = {start: documentText.selectionStart, end: documentText.selectionEnd};
+        var startsSame = newdocumentText.startsWith(documentText.substring(0, selection.end));
+        var endsSame = newdocumentText.endsWith(documentText.substring(selection.start));
+
+        tinyMCE.activeEditor.setContent(newdocumentText);
         if (startsSame && !endsSame) {
-            doctext.setSelectionRange(selection.start, selection.end);
+            documentText.setSelectionRange(selection.start, selection.end);
         } else if (!startsSame && endsSame) {
-            doctext.setSelectionRange(selection.start + offset, selection.end + offset);
+            documentText.setSelectionRange(selection.start + offset, selection.end + offset);
         } else { // this is what google docs does...
-            doctext.setSelectionRange(selection.start, selection.end + offset);
+            documentText.setSelectionRange(selection.start, selection.end + offset);
         }
     }
 
@@ -101,11 +120,14 @@ socketConn.onmessage = function(event) {
         let newVersionName = event.data.split(":")[1];
         let newVersionId = event.data.split(":")[2];
         let versionTable = document.getElementById('version-table');
-        let row = versionTable.insertRow(versionTable.rows.length);
-        let cell  = row.insertCell(0);
-        cell.innerHTML = "<tr><td><h0 id=\"version-id\" hidden=\"hidden\">" + newVersionId + "</h0></td>" +
-            "<td><h0 id=\"version-name\" onclick=\"getVersion(this)\">" + newVersionName + "</h0></td>  " +
-            "<td><i onclick=\"deleteVersion(this)\" class=\"far fa-trash-alt\" id=\"delete\"></i></td></tr>";
+        var row = versionTable.insertRow(versionTable.rows.length);
+        var cell0  = row.insertCell(0);
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        cell0.innerHTML = "<h0 id=\"version-id\" hidden=\"hidden\">" + newVersionId + "</h0>";
+        cell1.innerHTML= "<h0 id=\"version-name\" onclick=\"getVersion(this)\">" + newVersionName + "</h0>";
+        cell2.innerHTML = "<i onclick=\"deleteVersion(this)\" class=\"far fa-trash-alt\" id=\"delete\"></i>";
+
     }
 
     //Update version table (Version was deleted)
@@ -157,13 +179,13 @@ function stopChange() {
 function addNewVersion() {
 
     let versionName = document.getElementById('new-version-name');
-    let documentText = document.getElementById('document-text');
+    let documentText = tinyMCE.activeEditor.getContent();
     if(versionName.value != "") {
         $.ajax({
             type: "POST",
             url: "/addNewVersion/" + $("#document-id").html(),
             contentType: 'application/json',
-            data: JSON.stringify({versionName: versionName.value, versionText: documentText.value}),
+            data: JSON.stringify({versionName: versionName.value, versionText: documentText}),
 
             success: function (data) {
                 console.log("Version was added");
@@ -199,6 +221,7 @@ function deleteVersion(element) {
 
 function getVersion(element) {
 
+    sendToDatabase();
     var doc = $(element).closest("tr").find("#version-id");
     var documentId = doc.html();
     window.location.href = "/version/" + documentId;

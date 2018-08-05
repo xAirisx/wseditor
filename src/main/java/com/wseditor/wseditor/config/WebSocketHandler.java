@@ -33,7 +33,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
                     .filter(entry -> !entry.getKey().equals(session))
                     .map(Map.Entry::getKey)
                     .forEach(peer -> Utils.trySilently(() ->
-                            peer.sendMessage(new TextMessage("TEXT_UPDATED:" + ((UpdateTextMessageDto) messageDto).getDocumentText()))));
+                            peer.sendMessage(new TextMessage("TEXT_UPDATED|" + ((UpdateTextMessageDto) messageDto).getDocumentText()))));
 
         }
         //Add peer to map and update ask to update user-table fro every peer

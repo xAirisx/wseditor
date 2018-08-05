@@ -64,7 +64,7 @@
                 <h1 onclick="changeName()" id="document-name" th:text="${document.name}"></h1>
             </form>
         </div>
-        <textarea id="document-text" onkeyup="sendText()" th:text="${document.text}"></textarea>
+        <textarea class="tinymce" id="document-text" onkeyup="sendText()" th:text="${document.text}"></textarea>
         <h1 id="document-id" th:text="${document.id}" hidden="hidden"></h1>
     </div>
 
