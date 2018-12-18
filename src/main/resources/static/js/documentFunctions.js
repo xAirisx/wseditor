@@ -1,5 +1,5 @@
 //WebSocket
-var socketConn = new WebSocket('ws://localhost:8080/gs');
+var socketConn = new WebSocket('ws://wstexteditor.herokuapp.com/gs');
 var symbolCount = 0;
 
 //Send to database every 10 sec
