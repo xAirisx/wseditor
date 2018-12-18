@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Entity
-@Table(name="Document")
+@Table(name="document")
 public class Document {
 
     public enum DocumentType {MAIN, EXTRA}

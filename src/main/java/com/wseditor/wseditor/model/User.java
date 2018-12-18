@@ -5,12 +5,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="User")
+@Table(name="editoruser")
 public class User {
 
-    User() { }
+    public User() { }
 
-    User(String login, String password)
+    public User(String login, String password)
     {
         this.login = login;
         this.password = password;
@@ -30,6 +30,10 @@ public class User {
 
     public int getUserId() {
         return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getLogin() {
