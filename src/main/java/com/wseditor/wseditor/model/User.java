@@ -22,13 +22,9 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int userId;
 
-    @NotNull
-    @NotEmpty(message = "Please provide your login name")
     @Column(name = "login")
     private String login;
 
-    @NotNull
-    @NotEmpty(message = "Please provide your password")
     @Column(name = "password")
     private String password;
 
