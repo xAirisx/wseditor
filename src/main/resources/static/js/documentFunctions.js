@@ -22,12 +22,12 @@ document.onreadystatechange = function () {
     });
 }
 
-function start(websocketServerLocation){
+function start(){
     socketConn = new WebSocket('wss://wstexteditor.herokuapp.com/gs');
 }
 
 socketConn.onclose = function(){
-        setTimeout(function(){start(websocketServerLocation)}, 5000);
+        setTimeout(function(){start()}, 5000);
     };
 
 
