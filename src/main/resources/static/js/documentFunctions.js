@@ -23,10 +23,10 @@ document.onreadystatechange = function () {
 }
 
 function start(websocketServerLocation){
-    ws = new WebSocket('wss://wstexteditor.herokuapp.com/gs');
+    socketConn = new WebSocket('wss://wstexteditor.herokuapp.com/gs');
 }
 
-ws.onclose = function(){
+socketConn.onclose = function(){
         setTimeout(function(){start(websocketServerLocation)}, 5000);
     };
 
