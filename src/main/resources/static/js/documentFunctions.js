@@ -22,6 +22,15 @@ document.onreadystatechange = function () {
     });
 }
 
+function start(websocketServerLocation){
+    ws = new WebSocket('wss://wstexteditor.herokuapp.com/gs');
+}
+
+ws.onclose = function(){
+        setTimeout(function(){start(websocketServerLocation)}, 5000);
+    };
+
+
 //Start session and get users
 function startSocket() {
 
