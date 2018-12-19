@@ -1,86 +1,23 @@
 //WebSocket
+function connect() {
+    
 var socketConn = new WebSocket('wss://wstexteditor.herokuapp.com/gs');
 var symbolCount = 0;
-
 //Send to database every 10 sec
 setTimeout(sendToDatabase, 10000);
-
-document.onreadystatechange = function () {
-
-    tinymce.init({
-        selector: 'textarea',
-        width: "750",
-        setup: function (ed) {
-            ed.on('KeyUp', function (e) {
-                sendText();
-            });
-        }
-    });
-
-    tinymce.DOM.bind(document, 'click', function(e) {
-        sendText();
-    });
-}
-
-function start(){
-    socketConn = new WebSocket('wss://wstexteditor.herokuapp.com/gs');
-}
-
-socketConn.onclose = function(){
-    socketConn.removeAllListeners();
-    console.log("reset connection")
-    setTimeout(function(){start()}, 5000);
     
-    };
+socketConn.onclose= function(e) {
+    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    setTimeout(function() {
+      connect();
+    }, 1000);
+};
 
-
-//Start session and get users
-function startSocket() {
-
-    if(!socketConn.readyState){
-        setTimeout(function (){
-            startSocket();
-        },100);
-    }else{
-           socketConn.send(JSON.stringify({type: "START_MESSAGE", documentId: $("#document-id").html()}));
-    }
-}
-
-function closeSocket()
-{
-    sendToDatabase();
-}
-
-
-//save Text and Document Name to Database
-function sendToDatabase() {
-
-    let  documentText = tinyMCE.activeEditor.getContent();
-    let documentName = document.getElementById('document-name');
-    $.ajax({
-        type: "PUT",
-        url: "/updateDocument/" + $("#document-id").html(),
-        data: JSON.stringify({type: "UPDATE_TEXT", documentText: documentText, documentName: documentName.textContent}),
-        contentType: 'application/json',
-    });
-}
-
-
-//Send text to all peers
-function sendText() {
-
-    var  documentText = tinyMCE.activeEditor.getContent();
-    symbolCount++;
-    if (documentText) {
-
-        socketConn.send(JSON.stringify({type: "UPDATE_TEXT", documentText: documentText}));
-    }
-    if (symbolCount == 10) {
-        symbolCount = 0;
-        sendToDatabase();
-    }
-}
-
+socketConn.onerror = function(err) {
+    console.error('Socket encountered error: ', err.message, 'Closing socket');
+    socketConn.close();
+  };
+  
 //Messages from socket or text to update
 socketConn.onmessage = function(event) {
 
@@ -162,7 +99,78 @@ socketConn.onmessage = function(event) {
             }
         });
     }
+};
+}   
+    
+connect();   
+
+document.onreadystatechange = function () {
+
+    tinymce.init({
+        selector: 'textarea',
+        width: "750",
+        setup: function (ed) {
+            ed.on('KeyUp', function (e) {
+                sendText();
+            });
+        }
+    });
+
+    tinymce.DOM.bind(document, 'click', function(e) {
+        sendText();
+    });
 }
+
+
+
+
+//Start session and get users
+function startSocket() {
+
+    if(!socketConn.readyState){
+        setTimeout(function (){
+            startSocket();
+        },100);
+    }else{
+           socketConn.send(JSON.stringify({type: "START_MESSAGE", documentId: $("#document-id").html()}));
+    }
+}
+
+function closeSocket()
+{
+    sendToDatabase();
+}
+
+
+//save Text and Document Name to Database
+function sendToDatabase() {
+
+    let  documentText = tinyMCE.activeEditor.getContent();
+    let documentName = document.getElementById('document-name');
+    $.ajax({
+        type: "PUT",
+        url: "/updateDocument/" + $("#document-id").html(),
+        data: JSON.stringify({type: "UPDATE_TEXT", documentText: documentText, documentName: documentName.textContent}),
+        contentType: 'application/json',
+    });
+}
+
+
+//Send text to all peers
+function sendText() {
+
+    var  documentText = tinyMCE.activeEditor.getContent();
+    symbolCount++;
+    if (documentText) {
+
+        socketConn.send(JSON.stringify({type: "UPDATE_TEXT", documentText: documentText}));
+    }
+    if (symbolCount == 10) {
+        symbolCount = 0;
+        sendToDatabase();
+    }
+}
+
 
 
 //show Input
