@@ -28,6 +28,7 @@ function start(){
 
 socketConn.onclose = function(){
         setTimeout(function(){start()}, 5000);
+    console.log("reset connection")
     };
 
 
