@@ -25,8 +25,13 @@ document.onreadystatechange = function () {
 //Start session and get users
 function startSocket() {
 
-    socketConn.send(JSON.stringify({type: "START_MESSAGE", documentId: $("#document-id").html()}));
-
+    if(!socketConn.readyState){
+        setTimeout(function (){
+            startSocket();
+        },100);
+    }else{
+           socketConn.send(JSON.stringify({type: "START_MESSAGE", documentId: $("#document-id").html()}));
+    }
 }
 
 function closeSocket()
