@@ -27,8 +27,10 @@ function start(){
 }
 
 socketConn.onclose = function(){
-        setTimeout(function(){start()}, 5000);
+    socketConn.removeAllListeners();
     console.log("reset connection")
+    setTimeout(function(){start()}, 5000);
+    
     };
 
 
