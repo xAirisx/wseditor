@@ -1,23 +1,10 @@
 //WebSocket
-function connect() {
-    
+
 var socketConn = new WebSocket('wss://wstexteditor.herokuapp.com/gs');
 var symbolCount = 0;
 //Send to database every 10 sec
 setTimeout(sendToDatabase, 10000);
-    
-socketConn.onclose= function(e) {
-    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-    setTimeout(function() {
-      connect();
-    }, 1000);
-};
 
-socketConn.onerror = function(err) {
-    console.error('Socket encountered error: ', err.message, 'Closing socket');
-    socketConn.close();
-  };
-  
 //Messages from socket or text to update
 socketConn.onmessage = function(event) {
 
@@ -99,10 +86,13 @@ socketConn.onmessage = function(event) {
             }
         });
     }
-};
-}   
+}
+
     
-connect();   
+socketConn.onclose = function(){
+        setTimeout(function(){start()}, 5000);
+    console.log("reset connection")
+    };
 
 document.onreadystatechange = function () {
 
